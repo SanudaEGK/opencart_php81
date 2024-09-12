@@ -42,7 +42,7 @@ final class MySQLi {
 	}
 
 	public function escape($value) {
-		return $this->connection->real_escape_string($value);
+		return $this->connection->real_escape_string($value ?? '');
 	}
 	
 	public function countAffected() {

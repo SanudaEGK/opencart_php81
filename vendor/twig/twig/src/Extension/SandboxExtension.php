@@ -26,39 +26,39 @@ final class SandboxExtension extends AbstractExtension
     private $policy;
     private $sourcePolicy;
 
-    public function __construct(SecurityPolicyInterface $policy, $sandboxed = false, ?SourcePolicyInterface $sourcePolicy = null)
+    public function __construct(SecurityPolicyInterface $policy, $sandboxed = false, SourcePolicyInterface $sourcePolicy = null)
     {
         $this->policy = $policy;
         $this->sandboxedGlobally = $sandboxed;
         $this->sourcePolicy = $sourcePolicy;
     }
 
-    public function getTokenParsers(): array
+    public function getTokenParsers()
     {
         return [new SandboxTokenParser()];
     }
 
-    public function getNodeVisitors(): array
+    public function getNodeVisitors()
     {
         return [new SandboxNodeVisitor()];
     }
 
-    public function enableSandbox(): void
+    public function enableSandbox()
     {
         $this->sandboxed = true;
     }
 
-    public function disableSandbox(): void
+    public function disableSandbox()
     {
         $this->sandboxed = false;
     }
 
-    public function isSandboxed(?Source $source = null): bool
+    public function isSandboxed(Source $source = null)
     {
         return $this->sandboxedGlobally || $this->sandboxed || $this->isSourceSandboxed($source);
     }
 
-    public function isSandboxedGlobally(): bool
+    public function isSandboxedGlobally()
     {
         return $this->sandboxedGlobally;
     }
@@ -77,19 +77,19 @@ final class SandboxExtension extends AbstractExtension
         $this->policy = $policy;
     }
 
-    public function getSecurityPolicy(): SecurityPolicyInterface
+    public function getSecurityPolicy()
     {
         return $this->policy;
     }
 
-    public function checkSecurity($tags, $filters, $functions, ?Source $source = null): void
+    public function checkSecurity($tags, $filters, $functions, Source $source = null)
     {
         if ($this->isSandboxed($source)) {
             $this->policy->checkSecurity($tags, $filters, $functions);
         }
     }
 
-    public function checkMethodAllowed($obj, $method, int $lineno = -1, ?Source $source = null): void
+    public function checkMethodAllowed($obj, $method, int $lineno = -1, Source $source = null)
     {
         if ($this->isSandboxed($source)) {
             try {
@@ -103,7 +103,7 @@ final class SandboxExtension extends AbstractExtension
         }
     }
 
-    public function checkPropertyAllowed($obj, $property, int $lineno = -1, ?Source $source = null): void
+    public function checkPropertyAllowed($obj, $property, int $lineno = -1, Source $source = null)
     {
         if ($this->isSandboxed($source)) {
             try {
@@ -117,7 +117,7 @@ final class SandboxExtension extends AbstractExtension
         }
     }
 
-    public function ensureToStringAllowed($obj, int $lineno = -1, ?Source $source = null)
+    public function ensureToStringAllowed($obj, int $lineno = -1, Source $source = null)
     {
         if ($this->isSandboxed($source) && \is_object($obj) && method_exists($obj, '__toString')) {
             try {
@@ -133,3 +133,5 @@ final class SandboxExtension extends AbstractExtension
         return $obj;
     }
 }
+
+class_alias('Twig\Extension\SandboxExtension', 'Twig_Extension_Sandbox');

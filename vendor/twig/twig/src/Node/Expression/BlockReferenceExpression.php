@@ -22,7 +22,7 @@ use Twig\Node\Node;
  */
 class BlockReferenceExpression extends AbstractExpression
 {
-    public function __construct(Node $name, ?Node $template, int $lineno, ?string $tag = null)
+    public function __construct(Node $name, ?Node $template, int $lineno, string $tag = null)
     {
         $nodes = ['name' => $name];
         if (null !== $template) {
@@ -32,7 +32,7 @@ class BlockReferenceExpression extends AbstractExpression
         parent::__construct($nodes, ['is_defined_test' => false, 'output' => false], $lineno, $tag);
     }
 
-    public function compile(Compiler $compiler): void
+    public function compile(Compiler $compiler)
     {
         if ($this->getAttribute('is_defined_test')) {
             $this->compileTemplateCall($compiler, 'hasBlock');
@@ -40,9 +40,8 @@ class BlockReferenceExpression extends AbstractExpression
             if ($this->getAttribute('output')) {
                 $compiler->addDebugInfo($this);
 
-                $compiler->write('yield from ');
                 $this
-                    ->compileTemplateCall($compiler, 'yieldBlock')
+                    ->compileTemplateCall($compiler, 'displayBlock')
                     ->raw(";\n");
             } else {
                 $this->compileTemplateCall($compiler, 'renderBlock');
@@ -66,7 +65,7 @@ class BlockReferenceExpression extends AbstractExpression
             ;
         }
 
-        $compiler->raw(\sprintf('->unwrap()->%s', $method));
+        $compiler->raw(sprintf('->%s', $method));
 
         return $this->compileBlockArguments($compiler);
     }
@@ -85,3 +84,5 @@ class BlockReferenceExpression extends AbstractExpression
         return $compiler->raw(')');
     }
 }
+
+class_alias('Twig\Node\Expression\BlockReferenceExpression', 'Twig_Node_Expression_BlockReference');

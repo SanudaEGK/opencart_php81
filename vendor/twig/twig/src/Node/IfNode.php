@@ -12,7 +12,6 @@
 
 namespace Twig\Node;
 
-use Twig\Attribute\YieldReady;
 use Twig\Compiler;
 
 /**
@@ -20,10 +19,9 @@ use Twig\Compiler;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-#[YieldReady]
 class IfNode extends Node
 {
-    public function __construct(Node $tests, ?Node $else, int $lineno, ?string $tag = null)
+    public function __construct(Node $tests, ?Node $else, int $lineno, string $tag = null)
     {
         $nodes = ['tests' => $tests];
         if (null !== $else) {
@@ -33,7 +31,7 @@ class IfNode extends Node
         parent::__construct($nodes, [], $lineno, $tag);
     }
 
-    public function compile(Compiler $compiler): void
+    public function compile(Compiler $compiler)
     {
         $compiler->addDebugInfo($this);
         for ($i = 0, $count = \count($this->getNode('tests')); $i < $count; $i += 2) {
@@ -49,13 +47,13 @@ class IfNode extends Node
             }
 
             $compiler
-                ->subcompile($this->getNode('tests')->getNode((string) $i))
+                ->subcompile($this->getNode('tests')->getNode($i))
                 ->raw(") {\n")
                 ->indent()
             ;
             // The node might not exists if the content is empty
-            if ($this->getNode('tests')->hasNode((string) ($i + 1))) {
-                $compiler->subcompile($this->getNode('tests')->getNode((string) ($i + 1)));
+            if ($this->getNode('tests')->hasNode($i + 1)) {
+                $compiler->subcompile($this->getNode('tests')->getNode($i + 1));
             }
         }
 
@@ -73,3 +71,5 @@ class IfNode extends Node
             ->write("}\n");
     }
 }
+
+class_alias('Twig\Node\IfNode', 'Twig_Node_If');

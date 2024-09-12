@@ -36,17 +36,17 @@ final class SecurityPolicy implements SecurityPolicyInterface
         $this->allowedFunctions = $allowedFunctions;
     }
 
-    public function setAllowedTags(array $tags): void
+    public function setAllowedTags(array $tags)
     {
         $this->allowedTags = $tags;
     }
 
-    public function setAllowedFilters(array $filters): void
+    public function setAllowedFilters(array $filters)
     {
         $this->allowedFilters = $filters;
     }
 
-    public function setAllowedMethods(array $methods): void
+    public function setAllowedMethods(array $methods)
     {
         $this->allowedMethods = [];
         foreach ($methods as $class => $m) {
@@ -54,38 +54,38 @@ final class SecurityPolicy implements SecurityPolicyInterface
         }
     }
 
-    public function setAllowedProperties(array $properties): void
+    public function setAllowedProperties(array $properties)
     {
         $this->allowedProperties = $properties;
     }
 
-    public function setAllowedFunctions(array $functions): void
+    public function setAllowedFunctions(array $functions)
     {
         $this->allowedFunctions = $functions;
     }
 
-    public function checkSecurity($tags, $filters, $functions): void
+    public function checkSecurity($tags, $filters, $functions)
     {
         foreach ($tags as $tag) {
             if (!\in_array($tag, $this->allowedTags)) {
-                throw new SecurityNotAllowedTagError(\sprintf('Tag "%s" is not allowed.', $tag), $tag);
+                throw new SecurityNotAllowedTagError(sprintf('Tag "%s" is not allowed.', $tag), $tag);
             }
         }
 
         foreach ($filters as $filter) {
             if (!\in_array($filter, $this->allowedFilters)) {
-                throw new SecurityNotAllowedFilterError(\sprintf('Filter "%s" is not allowed.', $filter), $filter);
+                throw new SecurityNotAllowedFilterError(sprintf('Filter "%s" is not allowed.', $filter), $filter);
             }
         }
 
         foreach ($functions as $function) {
             if (!\in_array($function, $this->allowedFunctions)) {
-                throw new SecurityNotAllowedFunctionError(\sprintf('Function "%s" is not allowed.', $function), $function);
+                throw new SecurityNotAllowedFunctionError(sprintf('Function "%s" is not allowed.', $function), $function);
             }
         }
     }
 
-    public function checkMethodAllowed($obj, $method): void
+    public function checkMethodAllowed($obj, $method)
     {
         if ($obj instanceof Template || $obj instanceof Markup) {
             return;
@@ -102,11 +102,11 @@ final class SecurityPolicy implements SecurityPolicyInterface
 
         if (!$allowed) {
             $class = \get_class($obj);
-            throw new SecurityNotAllowedMethodError(\sprintf('Calling "%s" method on a "%s" object is not allowed.', $method, $class), $class, $method);
+            throw new SecurityNotAllowedMethodError(sprintf('Calling "%s" method on a "%s" object is not allowed.', $method, $class), $class, $method);
         }
     }
 
-    public function checkPropertyAllowed($obj, $property): void
+    public function checkPropertyAllowed($obj, $property)
     {
         $allowed = false;
         foreach ($this->allowedProperties as $class => $properties) {
@@ -118,7 +118,9 @@ final class SecurityPolicy implements SecurityPolicyInterface
 
         if (!$allowed) {
             $class = \get_class($obj);
-            throw new SecurityNotAllowedPropertyError(\sprintf('Calling "%s" property on a "%s" object is not allowed.', $property, $class), $class, $property);
+            throw new SecurityNotAllowedPropertyError(sprintf('Calling "%s" property on a "%s" object is not allowed.', $property, $class), $class, $property);
         }
     }
 }
+
+class_alias('Twig\Sandbox\SecurityPolicy', 'Twig_Sandbox_SecurityPolicy');

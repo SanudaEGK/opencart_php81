@@ -24,7 +24,7 @@ class MethodCallExpression extends AbstractExpression
         }
     }
 
-    public function compile(Compiler $compiler): void
+    public function compile(Compiler $compiler)
     {
         if ($this->getAttribute('is_defined_test')) {
             $compiler
@@ -39,16 +39,14 @@ class MethodCallExpression extends AbstractExpression
         }
 
         $compiler
-            ->raw('CoreExtension::callMacro($macros[')
+            ->raw('twig_call_macro($macros[')
             ->repr($this->getNode('node')->getAttribute('name'))
             ->raw('], ')
             ->repr($this->getAttribute('method'))
             ->raw(', [')
         ;
         $first = true;
-        /** @var ArrayExpression */
-        $args = $this->getNode('arguments');
-        foreach ($args->getKeyValuePairs() as $pair) {
+        foreach ($this->getNode('arguments')->getKeyValuePairs() as $pair) {
             if (!$first) {
                 $compiler->raw(', ');
             }
@@ -62,3 +60,5 @@ class MethodCallExpression extends AbstractExpression
             ->raw(', $context, $this->getSourceContext())');
     }
 }
+
+class_alias('Twig\Node\Expression\MethodCallExpression', 'Twig_Node_Expression_MethodCall');

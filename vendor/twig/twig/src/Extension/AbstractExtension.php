@@ -40,6 +40,8 @@ abstract class AbstractExtension implements ExtensionInterface
 
     public function getOperators()
     {
-        return [[], []];
+        return [];
     }
 }
+
+class_alias('Twig\Extension\AbstractExtension', 'Twig_Extension');

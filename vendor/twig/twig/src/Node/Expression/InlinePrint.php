@@ -19,16 +19,17 @@ use Twig\Node\Node;
  */
 final class InlinePrint extends AbstractExpression
 {
-    public function __construct(Node $node, int $lineno)
+    public function __construct(Node $node, $lineno)
     {
         parent::__construct(['node' => $node], [], $lineno);
     }
 
-    public function compile(Compiler $compiler): void
+    public function compile(Compiler $compiler)
     {
         $compiler
-            ->raw('yield ')
+            ->raw('print (')
             ->subcompile($this->getNode('node'))
+            ->raw(')')
         ;
     }
 }
