@@ -19,7 +19,7 @@ final class Twig {
 	
 	public function render($template, $cache = false) {
 		// specify where to look for templates
-		$loader = new \Twig_Loader_Filesystem(DIR_TEMPLATE);
+		$loader = new \Twig\Loader\FilesystemLoader(DIR_TEMPLATE);
 
 		// initialize Twig environment
 		$config = array('autoescape' => false);
@@ -28,7 +28,7 @@ final class Twig {
 			$config['cache'] = DIR_CACHE;
 		}
 
-		$this->twig = new \Twig_Environment($loader, $config);
+		$this->twig = new \Twig\Environment($loader, $config);
 		
 		try {
 			// load template
