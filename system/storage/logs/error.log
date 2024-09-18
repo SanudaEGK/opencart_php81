@@ -5993,3 +5993,8 @@
 2024-09-12 11:00:37 - PHP Warning:  require_once(C:/wamp64/www/opencart_php81/system/vendor/autoload.php): Failed to open stream: No such file or directory in C:\wamp64\www\opencart_php81\system\library\template\twig.php on line 4
 2024-09-12 11:08:10 - PHP Unknown:  Using the "Twig_Loader_Filesystem" class is deprecated since Twig version 2.7, use "Twig\Loader\FilesystemLoader" instead. in C:\wamp64\www\opencart_php81\vendor\twig\twig\lib\Twig\Loader\Filesystem.php on line 7
 2024-09-12 11:08:10 - PHP Unknown:  Using the "Twig_Environment" class is deprecated since Twig version 2.7, use "Twig\Environment" instead. in C:\wamp64\www\opencart_php81\vendor\twig\twig\lib\Twig\Environment.php on line 7
+2024-09-15 13:55:59 - PHP Unknown:  Automatic conversion of false to array is deprecated in C:\wamp64\www\opencart_php81\catalog\controller\startup\startup.php on line 95
+2024-09-15 14:13:32 - PHP Unknown:  Automatic conversion of false to array is deprecated in C:\wamp64\www\opencart_php81\catalog\controller\startup\startup.php on line 95
+2024-09-15 14:24:54 - PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\wamp64\www\opencart_php81\install\index.php:6) in C:\wamp64\www\opencart_php81\system\framework.php on line 108
+2024-09-15 14:24:54 - PHP Warning:  Cannot modify header information - headers already sent by (output started at C:\wamp64\www\opencart_php81\install\index.php:6) in C:\wamp64\www\opencart_php81\system\library\response.php on line 36
+2024-09-16 3:23:48 - PHP Unknown:  Automatic conversion of false to array is deprecated in C:\wamp64\www\opencart_php81\catalog\controller\startup\startup.php on line 95
